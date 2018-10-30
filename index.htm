@@ -1,0 +1,139 @@
+<!--
+https://datatables.net/forums/discussion/37593/change-datasource-on-click
+https://www.phpzag.com/load-and-refresh-jquery-datatable-with-php/
+-->
+<!DOCTYPE html>
+<html lang="zh-hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <title>DataTables reload demo</title>
+</head>
+<body>
+        <table id="example" class="cell-border">
+            <caption>DataTables 表格動態載入範例</caption>
+            <!-- <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>職務</th>
+                    <th>辦公地點</th>
+                    <th>分機</th>
+                    <th>到職日</th>
+                    <th>薪資</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>姓名</th>
+                    <th>職務</th>
+                    <th>辦公地點</th>
+                    <th>分機</th>
+                    <th>到職日</th>
+                    <th>薪資</th>
+                </tr>
+            </tfoot> -->
+        </table>
+    <br /><br />
+    <button id="reload1">載入 data.json (json array) </button>
+    <button id="reload2">載入 data.php (json array) </button>
+    <button id="reload3">載入 data.js (javascript array)</button>
+    <button id="reload4">載入 data2.json (json object)</button>
+    <!-- html end -->
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="data.js"></script>
+    <script>
+        $(document).ready( function () {
+            var dt = $('#example').DataTable( {
+                ajax: 'data.json',
+                iDisplayLength: 10,         //預設顯示的記錄數
+                bAutoWidth: true,           //是否自適應寬度
+                columns: [
+                    { title: "姓名" },
+                    { title: "職務" },
+                    { title: "辦公地點" },
+                    { title: "分機" },
+                    { title: "到職日" },
+                    { title: "薪資" }
+                ],
+                "oLanguage": {
+                    "sUrl": "dataTables.Chinese.traditional.txt"
+                }
+            } );
+        });
+
+//載入 data.json (json array)
+        $("#reload1").on('click', function(event) {
+            var nTableOptions = {
+                columns: [
+                    { title: "姓名" },
+                    { title: "職務" },
+                    { title: "辦公地點" },
+                    { title: "分機" },
+                    { title: "到職日" },
+                    { title: "薪資" }
+                ],
+                bDestroy: true // Add this property to new setting
+            }
+            var dt = $('#example').DataTable(nTableOptions);
+            dt.ajax.url( 'data.json' ).load();
+            //dt.ajax.reload();
+        });
+
+//載入 data.php (json array)
+        $("#reload2").on('click', function(event) {
+            var nTableOptions = {
+                columns: [
+                    { title: "姓名" },
+                    { title: "職務" },
+                    { title: "辦公地點" },
+                    { title: "分機" },
+                    { title: "到職日" },
+                    { title: "薪資" }
+                ],
+                bDestroy: true // Add this property to new setting
+            }
+            var dt = $('#example').DataTable(nTableOptions);
+            dt.ajax.url( 'data.php' ).load();
+        });
+
+//載入 data.js (javascript array)
+        $("#reload3").on('click', function(event) {
+            var nTableOptions = {
+                columns: [
+                    { title: "姓名" },
+                    { title: "職務" },
+                    { title: "辦公地點" },
+                    { title: "分機" },
+                    { title: "到職日" },
+                    { title: "薪資" }
+                ],
+                bDestroy: true // Add this property to new setting
+            }
+            var dt = $('#example').DataTable(nTableOptions);
+            dt.clear().draw();
+            dt.rows.add(dataSet);            // Add new data
+            dt.columns.adjust().draw();      // Redraw
+        });
+
+// 載入 data2.json (json object)
+        $("#reload4").on('click', function(event) {
+            var nTableOptions = {
+                columns: [
+                    { title: "姓名", "data": "name" },
+                    { title: "職務", "data": "position" },
+                    { title: "辦公地點", "data": "office" },
+                    { title: "分機", "data": "extn" },
+                    { title: "到職日", "data": "start_date" },
+                    { title: "薪資", "data": "salary" }
+                ],
+                bDestroy: true // Add this property to new setting
+            }
+            var dt = $('#example').DataTable(nTableOptions);
+            dt.ajax.url( 'data2.json' ).load();
+        });
+    </script>
+</body>
+</html>
